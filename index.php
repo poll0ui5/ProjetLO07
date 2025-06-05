@@ -1,6 +1,6 @@
 <?php
 
-header('Location: app/router/router2.php?action=caveAccueil');
+header('Location: app/router/router1.php?action=projetAccueil');
 
 ?>
 
