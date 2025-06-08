@@ -25,12 +25,9 @@ $args = $param;
 
 // --- Liste des méthodes autorisées
 switch ($action) {
- case "vinReadAll" :
- case "vinReadOne" :
- case "vinReadId" :
- case "vinCreate" :
- case "vinCreated" :
-  ControllerVin::$action();
+ case "ProjectLogin" :
+
+  ControllerPersonne::$action();
   break;
 }
 switch ($action) {

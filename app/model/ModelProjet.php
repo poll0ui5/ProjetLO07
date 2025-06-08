@@ -43,8 +43,5 @@ class ModelProjet {
     public function setGroupe($groupe): void {
         $this->groupe = $groupe;
     }
-
-
-
-
+    
 }

@@ -80,4 +80,21 @@ class ModelPersonne {
     public function setPassword($password): void {
         $this->password = $password;
     }
+    
+    public static function connect($login, $password) {
+    try {
+        $database = Model::getInstance();
+        $query = "SELECT * FROM personne WHERE login = :login AND password = :password";
+        $statement = $database->prepare($query);
+        $statement->execute([
+            'login' => $login,
+            'password' => $password
+        ]);
+        $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelPersonne");
+        return $results;
+    } catch (PDOException $e) {
+        printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+        return NULL;
+    }
+}
 }
