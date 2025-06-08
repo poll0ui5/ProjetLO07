@@ -4,8 +4,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
-
+require ('../controller/ControllerCreneau.php');
+require ('../controller/ControllerPersonne.php');
 require ('../controller/ControllerProjet.php');
+require ('../controller/ControllerRdv.php');
 
 // --- récupération de l'action passée dans l'URL
 $query_string = $_SERVER['QUERY_STRING'];
@@ -22,27 +24,34 @@ unset($param['action']);
 $args = $param;
 
 // --- Liste des méthodes autorisées
-
 switch ($action) {
-    case "" :
-        ControllerPersonne::$action($args);
-        break;
+ case "vinReadAll" :
+ case "vinReadOne" :
+ case "vinReadId" :
+ case "vinCreate" :
+ case "vinCreated" :
+  ControllerVin::$action();
+  break;
 }
 switch ($action) {
-    case "" :
-        ControllerCreneau::$action($args);
-        break;
+ case "CaveProposition1" :
+ case "CaveProposition2" :
+  ControllerCave::$action();
+  break;
 }
 switch ($action) {
-    case "" :
-        ControllerRdv::$action($args);
-        break;
-}
-
-switch ($action) {
-    case "projetAccueil" :
-        ControllerProjet::$action($args);
-        break;
+ case "ProducteurReadAll" :
+ case "ProducteurReadOne" :
+ case "ProducteurReadId" :
+ case "ProducteurCreate" :
+ case "ProducteurCreated" :
+ case "ProducteurReadRegion" :
+ case "ProducteurNumber" :
+  ControllerProducteur::$action();
+  break;
+ // Tache par défaut
+ default:
+  $action = "projetAccueil";
+  ControllerProjet::$action();
 }
 ?>
-<!-- ----- Fin Router1 -->
