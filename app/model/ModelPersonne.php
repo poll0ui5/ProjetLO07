@@ -96,5 +96,9 @@ class ModelPersonne {
         printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
         return NULL;
     }
-}
+    }
+    
+    public static function connected($login){
+        
+    }
 }
