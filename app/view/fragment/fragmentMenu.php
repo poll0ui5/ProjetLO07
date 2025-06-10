@@ -1,5 +1,4 @@
 <?php
-// Vérifie si un utilisateur est connecté
 $connected = isset($_SESSION['login_id']) && $_SESSION['login_id'] != 0;
 
 // Récupère les infos du user s'il est connecté
@@ -18,9 +17,9 @@ if ($connected) {
 }
 ?>
 
-<nav class="navbar navbar-expand-lg bg-success fixed-top">
+<nav class="navbar navbar-expand-lg bg-danger fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="router1.php?action=CaveAccueil">LEDOUX - BROWN | <?= htmlspecialchars($nomAffiche) ?></a>
+    <a class="navbar-brand" href="router1.php?action=projetAccueil">LEDOUX - BROWN | <?= htmlspecialchars($nomAffiche) ?></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -54,10 +53,10 @@ if ($connected) {
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Se connecter</a>
           <ul class="dropdown-menu">
             <?php if (!$connected): ?>
-              <li><a class="dropdown-item" href="router1.php?action=ProjectLogin">Connexion</a></li>
-              <li><a class="dropdown-item" href="router1.php?action=RegisterForm">Inscription</a></li>
+              <li><a class="dropdown-item" href="router1.php?action=persoLogin">Connexion</a></li>
+              <li><a class="dropdown-item" href="router1.php?action=persoRegister">Inscription</a></li>
             <?php else: ?>
-              <li><a class="dropdown-item" href="router1.php?action=Logout">Déconnexion</a></li>
+              <li><a class="dropdown-item" href="router1.php?action=persoLogout">Déconnexion</a></li>
             <?php endif; ?>
           </ul>
         </li>

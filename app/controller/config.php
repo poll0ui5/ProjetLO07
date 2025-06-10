@@ -1,10 +1,8 @@
-
 <!-- ----- debut config -->
 <?php
-
 // Utile pour le débugage car c'est un interrupteur pour les echos et print_r.
 if (!defined('DEBUG')) {
-    define('DEBUG', FALSE);
+    define('DEBUG', TRUE);
 }
 
 // ===============
@@ -24,8 +22,8 @@ if (LOCAL) {
     $password = 'root';
 }
  
-// chemin absolu vers le répertoire du projet SUR DEV-ISI 
-$root = dirname(dirname(__DIR__)) . "/";
+// chemin absolu vers le répertoire du projet - CORRIGÉ
+$root = dirname(dirname(__DIR__)) . "/";  // Depuis controller/, on remonte à ProjetLO07/
 
 
 if (DEBUG) {
@@ -41,6 +39,3 @@ if (DEBUG) {
 ?>
 
 <!-- ----- fin config -->
-
-
-

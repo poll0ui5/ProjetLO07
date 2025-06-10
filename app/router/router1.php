@@ -1,5 +1,6 @@
 <!-- ----- debut Router1 -->
 <?php
+echo 'Current dir: ' . __DIR__;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -23,32 +24,24 @@ $action = isset($param["action"]) ? htmlspecialchars($param["action"]) : '';
 unset($param['action']);
 $args = $param;
 
-// --- Liste des méthodes autorisées
-switch ($action) {
- case "ProjectLogin" :
 
-  ControllerPersonne::$action();
-  break;
-}
 switch ($action) {
- case "CaveProposition1" :
- case "CaveProposition2" :
-  ControllerCave::$action();
+ case "persoLogin" :
+ case "persoLogged" :
+ case "persoRegister" :
+ case "persoRegistered" :
+ case "persoLogout" :
+  ControllerPersonne::$action($args);
   break;
 }
+
+
 switch ($action) {
- case "ProducteurReadAll" :
- case "ProducteurReadOne" :
- case "ProducteurReadId" :
- case "ProducteurCreate" :
- case "ProducteurCreated" :
- case "ProducteurReadRegion" :
- case "ProducteurNumber" :
-  ControllerProducteur::$action();
+ case "projetAccueil" :
+ case "projetLogin" :
+  ControllerProjet::$action($args);
   break;
- // Tache par défaut
- default:
-  $action = "projetAccueil";
-  ControllerProjet::$action();
 }
+
+
 ?>
