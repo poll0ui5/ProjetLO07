@@ -23,18 +23,37 @@ class ControllerPersonne {
 
     public static function persoLogged() {
         include 'config.php';
-        $vue = $root . '/app/view/perso/viewpersoLogged.php'; // le formulaire
-        // traitement du POST uniquement si les champs existent
+        $vue = $root . '/app/view/perso/viewpersoLogged.php'; // Vue de confirmation de login
+
         if (isset($_POST['login']) && isset($_POST['password'])) {
             $results = ModelPersonne::connect(
                     htmlspecialchars($_POST['login']),
                     htmlspecialchars($_POST['password'])
             );
 
-            // tu peux rediriger ou afficher une vue de résultat ici
+            if (!empty($results)) {
+                $user = $results[0];
+                // Stocker les infos dans la session
+                $_SESSION['login_id'] = $user->getId();
+                $_SESSION['login_nom'] = $user->getNom();
+                $_SESSION['login_prenom'] = $user->getPrenom();
+            } else {
+                // Si erreur, on remet à zéro
+                $_SESSION['login_id'] = 0;
+                $_SESSION['login_nom'] = '';
+                $_SESSION['login_prenom'] = '';
+            }
         }
 
         require($vue);
+    }
+
+    public static function persoLogout() {
+        session_start();
+        session_unset();
+        session_destroy();
+        header('Location: router1.php?action=projetAccueil');
+        exit();
     }
 
     public static function persoRegister() {

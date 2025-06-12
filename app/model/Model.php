@@ -2,18 +2,24 @@
 <!-- ----- debut Model -->
 <?php
 
+
 class Model extends PDO {
 
  private static $_instance;
+ 
 
  // Constructeur : héritage public obligatoire par héritage de PDO
  public function __construct() {
+     
  }
 
  //Singleton
  public static function getInstance() {
   // les variables sont définies dans le fichier config.php
-  include_once '../controller/config.php';
+    $dsn = 'mysql:dbname=ledouxpa;host=localhost;charset=utf8';
+    $username = 'root';
+    $password = '';
+
   
   if (DEBUG) echo ("Model : getInstance : dsn = $dsn</br>");
 

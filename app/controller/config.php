@@ -1,5 +1,7 @@
+
 <!-- ----- debut config -->
 <?php
+
 // Utile pour le débugage car c'est un interrupteur pour les echos et print_r.
 if (!defined('DEBUG')) {
     define('DEBUG', TRUE);
@@ -7,9 +9,9 @@ if (!defined('DEBUG')) {
 
 // ===============
 // Configuration de la base de données sur dev-isi
-$dsn = 'mysql:dbname=;host=localhost;charset=utf8';
-$username = '';
-$password = '';
+$dsn = 'mysql:dbname=lemercie;host=localhost;charset=utf8';
+$username = 'ledouxpa';
+$password = '.....';
 
 if (!defined('LOCAL')) {
     define('LOCAL', TRUE);
@@ -17,13 +19,13 @@ if (!defined('LOCAL')) {
 
 if (LOCAL) {
     // Configuration de la base de données sur localhost
-    $dsn = 'mysql:dbname=brownben;host=localhost;charset=utf8';
+    $dsn = 'mysql:dbname=ledouxpa;host=localhost;charset=utf8';
     $username = 'root';
-    $password = 'root';
+    $password = '';
 }
  
-// chemin absolu vers le répertoire du projet - CORRIGÉ
-$root = dirname(dirname(__DIR__)) . "/";  // Depuis controller/, on remonte à ProjetLO07/
+// chemin absolu vers le répertoire du projet SUR DEV-ISI 
+$root = dirname(dirname(__DIR__)) . "/";
 
 
 if (DEBUG) {
@@ -39,3 +41,6 @@ if (DEBUG) {
 ?>
 
 <!-- ----- fin config -->
+
+
+

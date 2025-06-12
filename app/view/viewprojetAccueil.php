@@ -1,6 +1,6 @@
 <!-- ----- debut de la page cave_acceuil -->
 <?php
-include ($root . 'app/view/fragment/fragmentHeader.html');?>
+include ($root . 'app/view/fragment/fragmentHeader.php');?>
 <body>
   <div class="container">
     <?php

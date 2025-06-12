@@ -1,23 +1,28 @@
-<!-- ----- debut de la page cave_acceuil -->
-<?php
-include ($root . 'app/view/fragment/fragmentHeader.html');?>
+<?php include($root . 'app/view/fragment/fragmentHeader.php'); ?>
 <body>
   <div class="container">
     <?php
-    include ($root . 'app/view/fragment/fragmentMenu.php');
-    include ($root . 'app/view/fragment/fragmentJumbotron.html');
+    include($root . 'app/view/fragment/fragmentMenu.php');
+    include($root . 'app/view/fragment/fragmentJumbotron.html');
     ?>
-    <img src="tick_vert.png" alt="Connexion réussie" style="max-width: 300px;">
 
-    <p>Connexion réussie. <a class="lead" href="router1.php?action=projetAccueil">Retour à l'accueil</a></p>
-  </div>   
-  
-  
-  <?php
-  include ($root . 'app/view/fragment/fragmentFooter.html');
-  ?>
+    <?php if (!empty($message)): ?>
+      <div class="alert alert-danger" role="alert">
+        <?= htmlspecialchars($message) ?>
+      </div>
+      <a class="btn btn-secondary" href="router1.php?action=persoLogin">Retour</a>
+    <?php else: ?>
+      <div class="alert alert-success" role="alert">
+        ✅ Connexion réussie.
+      </div>
+      <img src="tick_vert.png" alt="Connexion réussie" style="max-width: 300px;">
+      <p>
+        Bienvenue <?= htmlspecialchars($_SESSION['login_prenom'] . ' ' . $_SESSION['login_nom']) ?>.<br>
+        <a class="btn btn-primary mt-3" href="router1.php?action=projetAccueil">Aller à l'accueil</a>
+      </p>
+    <?php endif; ?>
+  </div>
 
-  <!-- ----- fin de la page cave_acceuil -->
-
+  <?php include($root . 'app/view/fragment/fragmentFooter.html'); ?>
 </body>
 </html>
