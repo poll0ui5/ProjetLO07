@@ -37,6 +37,10 @@ class ControllerPersonne {
                 $_SESSION['login_id'] = $user->getId();
                 $_SESSION['login_nom'] = $user->getNom();
                 $_SESSION['login_prenom'] = $user->getPrenom();
+                $_SESSION['login_role_responsable'] = $user->getRole_responsable();
+                $_SESSION['login_role_examinateur'] = $user->getRole_examinateur();
+                $_SESSION['login_role_etudiant'] = $user->getRole_etudiant();
+
             } else {
                 // Si erreur, on remet à zéro
                 $_SESSION['login_id'] = 0;
