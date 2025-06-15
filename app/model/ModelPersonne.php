@@ -128,4 +128,19 @@ class ModelPersonne {
             return -1;
         }
     }
+    
+    public static function getAllResponsable() {
+    try {
+        $database = Model::getInstance();
+        $query = "SELECT id, prenom, nom FROM personne WHERE role_responsable = TRUE";
+        $statement = $database->prepare($query);
+        $statement->execute();
+        $results = $statement->fetchAll(PDO::FETCH_CLASS);
+        return $results;
+    } catch (PDOException $e) {
+        printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+        return null;
+    }
 }
+}
+

@@ -21,7 +21,7 @@ class Model extends PDO {
     $password = '';
 
   
-  if (DEBUG) echo ("Model : getInstance : dsn = $dsn</br>");
+  #if (DEBUG) echo ("Model : getInstance : dsn = $dsn</br>");
 
   $options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
 

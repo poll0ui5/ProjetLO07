@@ -1,17 +1,24 @@
 <?php
 
 require_once 'Model.php';
+require_once 'ModelPersonne.php';
 
 class ModelProjet {
 
     private $id, $label, $responsable, $groupe;
     
-    public function __construct($id, $label, $responsable, $groupe) {
+    /*public function __construct($id = null, $label = null, $responsable = null, $groupe = null) {
         $this->id = $id;
         $this->label = $label;
         $this->responsable = $responsable;
         $this->groupe = $groupe;
+    }*/
+    
+    public function __construct() {
+    // vide, pour PDO::FETCH_CLASS
     }
+
+
     public function getId() {
         return $this->id;
     }
@@ -44,4 +51,20 @@ class ModelProjet {
         $this->groupe = $groupe;
     }
     
+    
+    public static function getProjetResponsable($respo_id) {
+        try {
+         $database = Model::getInstance();
+         $query = "SELECT label, responsable, groupe FROM projet WHERE responsable = $respo_id";
+         $statement = $database->prepare($query);
+         $statement->execute();
+         $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelProjet");
+         return $results;
+        } catch (PDOException $e) {
+         printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+         return NULL;
+        }
+    }
+    
+
 }

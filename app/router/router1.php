@@ -1,6 +1,6 @@
 <!-- ----- debut Router1 -->
 <?php
-
+session_start();
 echo 'Current dir: ' . __DIR__;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -38,11 +38,11 @@ switch ($action) {
 
 
 switch ($action) {
- case "projetAccueil" :
- case "projetLogin" :
+ case "projetAccueil":
+ case "ResponsableProjetList":
+ case "projetCreate":
   ControllerProjet::$action($args);
   break;
 }
-
 
 ?>
