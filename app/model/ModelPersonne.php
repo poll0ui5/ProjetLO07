@@ -129,18 +129,19 @@ class ModelPersonne {
         }
     }
     
-    public static function getAllResponsable() {
+   public static function getAllResponsable() {
     try {
         $database = Model::getInstance();
-        $query = "SELECT id, prenom, nom FROM personne WHERE role_responsable = TRUE";
+        $query = "SELECT * FROM personne WHERE role_responsable = true";
         $statement = $database->prepare($query);
         $statement->execute();
-        $results = $statement->fetchAll(PDO::FETCH_CLASS);
+        $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelPersonne");
         return $results;
     } catch (PDOException $e) {
         printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-        return null;
+        return NULL;
     }
-}
+    }
+
 }
 

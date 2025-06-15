@@ -25,8 +25,20 @@ class ControllerProjet {
     
     public static function projetCreate() {
         // ----- Construction chemin de la vue
+        $results = ModelPersonne::getAllResponsable();
         include 'config.php';
         $vue = $root . '/app/view/projet/viewprojetInsert.php';
+        require ($vue);
+    }
+    
+    public static function projetCreated() {
+        // ajouter une validation des informations du formulaire
+        $results = ModelProjet::insert(
+                htmlspecialchars($_POST['responsable']), htmlspecialchars($_POST['label']), htmlspecialchars($_POST['groupe'])
+        );
+        // ----- Construction chemin de la vue
+        include 'config.php';
+        $vue = $root . '/app/view/prod/viewprojetInserted.php';
         require ($vue);
     }
 }

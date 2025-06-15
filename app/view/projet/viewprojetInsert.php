@@ -10,16 +10,24 @@
             <div class="panel-heading">Ajout d'un nouveau projet</div>
             <div class="panel-body">
                 <form role="form" action="router1.php?action=projetCreated" method="post">
+                    
                     <!-- Label du projet -->
                     <div class="mb-3">
                         <label for="label" class="form-label">Label du projet</label>
                         <input type="text" class="form-control" id="label" name="label" placeholder="Entrez le nom du projet" required>
                     </div>
 
-                    <!-- Groupe -->
+                    <!-- Taille du groupe -->
                     <div class="mb-3">
-                        <label for="groupe" class="form-label">Groupe</label>
-                        <input type="text" class="form-control" id="groupe" name="groupe" placeholder="Entrez le groupe" required>
+                        <label for="groupe" class="form-label">Nombre d'étudiants dans le groupe</label>
+                        <select class="form-select" id="groupe" name="groupe" required>
+                            <option value="" disabled selected>Choisissez une taille de groupe</option>
+                            <?php
+                            for ($i = 1; $i <= 5; $i++) {
+                                echo "<option value=\"$i\">$i étudiant" . ($i > 1 ? 's' : '') . "</option>";
+                            }
+                            ?>
+                        </select>
                     </div>
 
                     <!-- Responsable (select dynamique) -->
@@ -28,10 +36,8 @@
                         <select class="form-select" id="responsable" name="responsable" required>
                             <option value="" disabled selected>Choisissez un responsable</option>
                             <?php
-                            // $responsables est un tableau d'objets ou tableaux fournis par le contrôleur
-                            if (!empty($responsables)) {
-                                foreach ($responsables as $resp) {
-                                    // Exemple si $resp est un objet avec getId() et getNom() / getPrenom()
+                            if (!empty($results)) {
+                                foreach ($results as $resp) {
                                     $id = $resp->getId();
                                     $nomPrenom = htmlspecialchars($resp->getNom() . ' ' . $resp->getPrenom());
                                     echo "<option value=\"$id\">$nomPrenom</option>";
