@@ -1,4 +1,4 @@
-<?php include ($root . 'app/view/fragment/fragmentHeader.html'); ?>
+<?php include ($root . 'app/view/fragment/fragmentHeader.php'); ?>
 <body>
     <div class="container">
         <?php

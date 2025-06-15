@@ -16,9 +16,9 @@ class Model extends PDO {
  //Singleton
  public static function getInstance() {
   // les variables sont définies dans le fichier config.php
-    $dsn = 'mysql:dbname=ledouxpa;host=localhost;charset=utf8';
+    $dsn = 'mysql:dbname=brownben;host=localhost;charset=utf8';
     $username = 'root';
-    $password = '';
+    $password = 'root';
 
   
   #if (DEBUG) echo ("Model : getInstance : dsn = $dsn</br>");

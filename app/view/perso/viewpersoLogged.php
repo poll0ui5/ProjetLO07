@@ -15,7 +15,6 @@
       <div class="alert alert-success" role="alert">
         ✅ Connexion réussie.
       </div>
-      <img src="tick_vert.png" alt="Connexion réussie" style="max-width: 300px;">
       <p>
         Bienvenue <?= htmlspecialchars($_SESSION['login_prenom'] . ' ' . $_SESSION['login_nom']) ?>.<br>
         <a class="btn btn-primary mt-3" href="router1.php?action=projetAccueil">Aller à l'accueil</a>

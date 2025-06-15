@@ -1,7 +1,22 @@
-<?php
 
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
- */
+<!-- ----- debut ControllerVin -->
+<?php
+require_once '../model/ModelProjet.php';
+require_once '../model/ModelRdv.php';
+
+class ControllerRdv {
+
+    // --- Liste des vins
+    public static function rdvEtuList() {
+        $etu_id = $_SESSION['login_id'];
+        $results = ModelRdv::getRdvEtu($etu_id);
+        include 'config.php';
+        $vue = $root . '/app/view/rdv/viewUni.php';
+        require ($vue);
+    }
+    
+}
+?>
+<!-- ----- fin ControllerVin -->
+
 

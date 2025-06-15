@@ -13,7 +13,7 @@ class ControllerProjet {
         require ($vue);
     }
     
-    public static function ResponsableProjetList() {
+    public static function projetRespoList() {
         // ajouter une validation des informations du formulaire
         $respo_id = $_SESSION['login_id'];
         $results = ModelProjet::getProjetResponsable($respo_id);

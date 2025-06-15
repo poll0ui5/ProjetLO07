@@ -25,24 +25,55 @@ $action = isset($param["action"]) ? htmlspecialchars($param["action"]) : '';
 unset($param['action']);
 $args = $param;
 
+//check pour connecté
+$connected = isset($_SESSION['login_id']) && $_SESSION['login_id'] != 0;
+$role_responsable = $_SESSION['login_role_responsable'] ?? false;
+$role_examinateur = $_SESSION['login_role_examinateur'] ?? false;
+$role_etudiant = $_SESSION['login_role_etudiant'] ?? false;
 
 switch ($action) {
- case "persoLogin" :
- case "persoLogged" :
- case "persoRegister" :
- case "persoRegistered" :
- case "persoLogout" :
-  ControllerPersonne::$action($args);
-  break;
+    // Actions accessibles à tout le monde (connecté ou non)
+    case "persoLogin":
+    case "persoRegister":
+    case "persoRegistered":
+    case "persoLogged":
+        ControllerPersonne::$action($args);
+        break;
+    //---------------------------------------------------------
+    //PERSONNE
+
+    case "persoLogout":
+        if ($connected) {
+            ControllerPersonne::$action($args);
+        } else {
+            header("Location: router1.php?action=projetAccueil");
+            exit();
+        }
+        break;
+    //---------------------------------------------------------
+    //PROJET
+    case "projetAccueil":
+        ControllerProjet::$action($args);
+        break;
+    case "projetRespoList":
+    case "projetCreate":
+        if ($connected && $role_responsable) {
+            ControllerProjet::$action($args);
+        } else {
+            header("Location: router1.php?action=projetAccueil");
+            exit();
+        }
+        break;
+    //---------------------------------------------------------
+    //RDV
+    case "rdvEtuList":
+    case "rdvEtuBook":
+        if ($connected && $role_etudiant) {
+            ControllerRdv::$action($args);
+        } else {
+            header("Location: router1.php?action=projetAccueil");
+            exit();
+        }
+        break;
 }
-
-
-switch ($action) {
- case "projetAccueil":
- case "ResponsableProjetList":
- case "projetCreate":
-  ControllerProjet::$action($args);
-  break;
-}
-
 ?>

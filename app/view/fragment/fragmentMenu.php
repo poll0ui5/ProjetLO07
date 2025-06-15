@@ -32,7 +32,7 @@ $role_etudiant = $_SESSION['login_role_etudiant'] ?? false;
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Responsable</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="router1.php?action=ResponsableProjetList">Liste de mes projets</a></li>
+                            <li><a class="dropdown-item" href="router1.php?action=projetRespoList">Liste de mes projets</a></li>
                             <li><a class="dropdown-item" href="router1.php?action=projetCreate">Ajout d'un projet</a></li>
                             <hr>
                             <li><a class="dropdown-item" href="router1.php?action=">Liste des examinateurs</a></li>
@@ -54,11 +54,14 @@ $role_etudiant = $_SESSION['login_role_etudiant'] ?? false;
                         </ul>
                     </li>
                 <?php endif; ?>
-
                 <?php if ($connected && $role_etudiant): ?>
                     <!-- Menu Étudiant -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="router1.php?action=EtudiantMesInfos">Mon compte étudiant</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Etudiant</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="router1.php?action=rdvEtuList">Liste de mes rendez-vous</a></li>
+                            <li><a class="dropdown-item" href="router1.php?action=rdvEtuBook">Prendre rdv pour un projet</a></li>
+                        </ul>
                     </li>
                 <?php endif; ?>
 
@@ -66,10 +69,8 @@ $role_etudiant = $_SESSION['login_role_etudiant'] ?? false;
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Innovations</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="router1.php?action=InnovationListe">Liste des projets</a></li>
-                        <?php if ($connected): ?>
-                            <li><a class="dropdown-item" href="router1.php?action=InnovationAjout">Ajouter un projet</a></li>
-                        <?php endif; ?>
+                        <li><a class="dropdown-item" href="router1.php?action=InnovationListe">Utilisation des données stockées</a></li>
+                        <li><a class="dropdown-item" href="router1.php?action=InnovationAjout">Amélioration du code MVC</a></li>
                     </ul>
                 </li>
 

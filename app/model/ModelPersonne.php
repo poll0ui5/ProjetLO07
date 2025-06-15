@@ -97,37 +97,49 @@ class ModelPersonne {
     }
 
     public static function insert($role_responsable, $role_examinateur, $role_etudiant, $nom, $prenom, $login_user, $password_user) {
-        try {
-            $database = Model::getInstance();
+    try {
+        $database = Model::getInstance();
 
-            // recherche de la valeur de la clé = max(id) + 1
-            $query = "select max(id) from personne";
-            $statement = $database->query($query);
-            $tuple = $statement->fetch();
-            $id = $tuple['0'];
-            $id++;
+        // Vérifier si le login existe déjà
+        $query = "SELECT COUNT(*) FROM personne WHERE login = :login";
+        $statement = $database->prepare($query);
+        $statement->execute(['login' => $login_user]);
+        $count = $statement->fetchColumn();
 
-            // ajout d'un nouveau tuple
-            $query = "insert into personne (id, nom, prenom, role_responsable, role_examinateur, role_etudiant, login, password) 
-                  values (:id, :nom, :prenom, :role_responsable, :role_examinateur, :role_etudiant, :login, :password)";
-            $statement = $database->prepare($query);
-            $statement->execute([
-                'id' => $id,
-                'nom' => $nom,
-                'prenom' => $prenom,
-                'role_responsable' => $role_responsable,
-                'role_examinateur' => $role_examinateur,
-                'role_etudiant' => $role_etudiant,
-                'login' => $login_user,
-                'password' => $password_user
-            ]);
-
-            return $id;
-        } catch (PDOException $e) {
-            printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-            return -1;
+        if ($count > 0) {
+            // Login déjà existant, ne pas insérer
+            return false;
         }
+
+        // Générer un nouvel id
+        $query = "SELECT MAX(id) FROM personne";
+        $statement = $database->query($query);
+        $tuple = $statement->fetch();
+        $id = $tuple[0] + 1;
+
+        // Insertion du nouvel utilisateur
+        $query = "INSERT INTO personne (id, nom, prenom, role_responsable, role_examinateur, role_etudiant, login, password) 
+                  VALUES (:id, :nom, :prenom, :role_responsable, :role_examinateur, :role_etudiant, :login, :password)";
+        $statement = $database->prepare($query);
+        $statement->execute([
+            'id' => $id,
+            'nom' => $nom,
+            'prenom' => $prenom,
+            'role_responsable' => $role_responsable,
+            'role_examinateur' => $role_examinateur,
+            'role_etudiant' => $role_etudiant,
+            'login' => $login_user,
+            'password' => $password_user
+        ]);
+
+        return $id;
+
+    } catch (PDOException $e) {
+        printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+        return -1;
     }
+}
+
     
    public static function getAllResponsable() {
     try {
