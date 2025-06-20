@@ -7,8 +7,8 @@ class ModelPersonne {
     private $id, $nom, $prenom, $role_responsable, $role_examinateur, $role_etudiant, $login, $password;
 
     public function __construct() {
-    // constructeur vide requis pour FETCH_CLASS
-}
+// constructeur vide requis pour FETCH_CLASS
+    }
 
     public function getId() {
         return $this->id;
@@ -100,11 +100,22 @@ class ModelPersonne {
     try {
         $database = Model::getInstance();
 
-        // Vérifier si le login existe déjà
-        $query = "SELECT COUNT(*) FROM personne WHERE login = :login";
-        $statement = $database->prepare($query);
-        $statement->execute(['login' => $login_user]);
-        $count = $statement->fetchColumn();
+// Vérifier si le login existe déjà
+            $query = "SELECT COUNT(*) FROM personne WHERE login = :login";
+            $statement = $database->prepare($query);
+            $statement->execute(['login' => $login_user]);
+            $count = $statement->fetchColumn();
+
+            if ($count > 0) {
+// Login déjà existant, ne pas insérer
+                return false;
+            }
+
+// Générer un nouvel id
+            $query = "SELECT MAX(id) FROM personne";
+            $statement = $database->query($query);
+            $tuple = $statement->fetch();
+            $id = $tuple[0] + 1;
 
         if ($count > 0) {
             // Login déjà existant, ne pas insérer
@@ -138,22 +149,69 @@ class ModelPersonne {
         printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
         return -1;
     }
-}
-
-    
-   public static function getAllResponsable() {
-    try {
-        $database = Model::getInstance();
-        $query = "SELECT * FROM personne WHERE role_responsable = true";
-        $statement = $database->prepare($query);
-        $statement->execute();
-        $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelPersonne");
-        return $results;
-    } catch (PDOException $e) {
-        printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-        return NULL;
-    }
     }
 
-}
+    public static function getAllResponsable() {
+        try {
+            $database = Model::getInstance();
+            $query = "SELECT * FROM personne WHERE role_responsable = true";
+            $statement = $database->prepare($query);
+            $statement->execute();
+            $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelPersonne");
+            return $results;
+        } catch (PDOException $e) {
+            printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+            return NULL;
+        }
+    }
 
+    public static function getAllExam() {
+        try {
+            $database = Model::getInstance();
+            $query = "SELECT * FROM personne WHERE role_examinateur = true";
+            $statement = $database->prepare($query);
+            $statement->execute();
+            $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelPersonne");
+            return $results;
+        } catch (PDOException $e) {
+            printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+            return NULL;
+        }
+    }
+
+    public static function insertExam($prenom, $nom, $role_examinateur, $role_etudiant, $role_responsable) {
+        try {
+            $database = Model::getInstance();
+
+// Étape 1 : calcul du nouvel ID
+            $query = "SELECT MAX(id) FROM personne";
+            $statement = $database->query($query);
+            $tuple = $statement->fetch();
+            $id = $tuple[0] + 1;
+
+// Étape 2 : génération d'un login unique et mot de passe
+            $login = strtolower($prenom . '.' . $nom) . '.' . $id; // ex: jean.dupont.13
+            $password = 'secret';
+
+// Étape 3 : insertion
+            $query = "INSERT INTO personne (id, nom, prenom, role_responsable, role_examinateur, role_etudiant, login, password) 
+                  VALUES (:id, :nom, :prenom, :role_responsable, :role_examinateur, :role_etudiant, :login, :password)";
+            $statement = $database->prepare($query);
+            $statement->execute([
+                'id' => $id,
+                'nom' => $nom,
+                'prenom' => $prenom,
+                'role_responsable' => $role_responsable,
+                'role_examinateur' => $role_examinateur,
+                'role_etudiant' => $role_etudiant,
+                'login' => $login,
+                'password' => $password
+            ]);
+
+            return $id;
+        } catch (PDOException $e) {
+            printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+            return -1;
+        }
+    }
+}

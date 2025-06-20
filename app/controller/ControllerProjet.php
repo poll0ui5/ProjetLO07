@@ -12,6 +12,18 @@ class ControllerProjet {
         $vue = $root . '/app/view/viewprojetAccueil.php';
         require ($vue);
     }
+    public static function projetInnovationsValo() {
+        include 'config.php';
+        $vue = $root . '/app/view/innovation/viewValo.php';
+        require ($vue);
+    }
+    public static function projetInnovationsAmelio() {
+        include 'config.php';
+        $vue = $root . '/app/view/innovation/viewAmelio.php';
+        require ($vue);
+    }
+    
+    
     
     public static function projetRespoList() {
         // ajouter une validation des informations du formulaire
@@ -22,7 +34,7 @@ class ControllerProjet {
         $vue = $root . '/app/view/projet/viewprojetRespo.php';
         require ($vue);
     }
-    
+
     public static function projetCreate() {
         // ----- Construction chemin de la vue
         $results = ModelPersonne::getAllResponsable();
@@ -30,15 +42,17 @@ class ControllerProjet {
         $vue = $root . '/app/view/projet/viewprojetInsert.php';
         require ($vue);
     }
-    
+
     public static function projetCreated() {
         // ajouter une validation des informations du formulaire
-        $results = ModelProjet::insert(
-                htmlspecialchars($_POST['responsable']), htmlspecialchars($_POST['label']), htmlspecialchars($_POST['groupe'])
-        );
+        $responsable = htmlspecialchars($_POST['responsable']);
+        $label = htmlspecialchars($_POST['label']);
+        $groupe = htmlspecialchars($_POST['groupe']);
+
+        $id = ModelProjet::insert($label, $responsable, $groupe);
         // ----- Construction chemin de la vue
         include 'config.php';
-        $vue = $root . '/app/view/prod/viewprojetInserted.php';
+        $vue = $root . '/app/view/projet/viewprojetInserted.php';
         require ($vue);
     }
 }

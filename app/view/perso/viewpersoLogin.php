@@ -11,7 +11,7 @@
       <div class="panel-body">
         <form role="form" method="post" action="router1.php?action=persoLogged">
           <div class="form-group">
-            <label for="login">Login :</label>
+            <label for="login">Login : (adjani pour etu, sokolova pour examinateur, lemercier pour exam et respo)</label>
             <input type="text" class="form-control" id="login_user" name="login" value="boss" required>
           </div>
           <div class="form-group">

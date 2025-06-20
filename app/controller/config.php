@@ -1,6 +1,7 @@
 
 <!-- ----- debut config -->
 <?php
+session_start();
 
 // Utile pour le débugage car c'est un interrupteur pour les echos et print_r.
 if (!defined('DEBUG')) {
@@ -35,8 +36,15 @@ if (DEBUG) {
  echo (" <li>password = $password</li>");
  echo ("<li>---</li>");
  echo (" <li>root = $root</li>");
+ $connected = isset($_SESSION['login_id']) && $_SESSION['login_id'] != 0;
+ 
+echo "<ul>";
+foreach ($_SESSION as $key => $value) {
+    echo "<li>" . htmlspecialchars($key) . " = " . htmlspecialchars(print_r($value, true)) . "</li>";
+}
+echo "</ul>";
 
- echo ("</ul>");
+
 }
 ?>
 

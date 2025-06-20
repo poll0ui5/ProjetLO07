@@ -1,7 +1,6 @@
 <?php
 
 require_once 'Model.php';
-require_once 'ModelCreneau.php';
 
 class ModelRdv {
 
@@ -37,30 +36,49 @@ class ModelRdv {
         $this->etudiant = $etudiant;
     }
 
-    public static function getRdvEtu($etu_id) {
-        try {
+public static function getRdvEtu($etu_id) {
+    try {
+        $database = Model::getInstance();
 
-            $database = Model::getInstance();
-            $query = "SELECT creneau FROM rdv WHERE etudiant = $etu_id";
-            $statement = $database->prepare($query);
-            $statement->execute();
-            $creneau_id = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
-            if (empty($creneau_id)) {
-                return []; // No creneau found, return empty array
-            }
+        // On récupère directement toutes les infos du rdv de cet étudiant via la vue
+        $query = "SELECT * FROM infordv WHERE etudiant_id = :etu_id";
+        $statement = $database->prepare($query);
+        $statement->bindParam(':etu_id', $etu_id, PDO::PARAM_INT);
+        $statement->execute();
 
-            $placeholders = implode(',', array_fill(0, count($creneau_id), '?'));
+        // Tu peux choisir le format
+        $rdvInfos = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // ou : $rdvInfos = $statement->fetchAll(PDO::FETCH_CLASS, "ModelRdv");
 
-            $query = "SELECT projet, examinateur, creneau FROM creneau WHERE id IN ($placeholders)";
-            $statement = $database->prepare($query);
-            $statement->execute($creneau_id);
+        return $rdvInfos;
 
-            $results = $statement->fetchAll(PDO::FETCH_CLASS, "ModelCreneau");
-
-            return $creneau_id;
-        } catch (PDOException $e) {
-            printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
-            return NULL;
-        }
+    } catch (PDOException $e) {
+        printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+        return NULL;
     }
+}
+public static function getCreneauxDispo($projet_id) {
+    try {
+        $database = Model::getInstance();
+        $query = "
+            SELECT CR.id, CR.creneau, EX.nom as examinateur_nom, EX.prenom as examinateur_prenom
+            FROM creneau CR
+            JOIN personne EX ON CR.examinateur = EX.id
+            LEFT JOIN rdv R ON CR.id = R.creneau
+            WHERE CR.projet = :projet_id AND R.id IS NULL
+        ";
+
+        $statement = $database->prepare($query);
+        $statement->bindParam(':projet_id', $projet_id, PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        printf("%s - %s<p/>\n", $e->getCode(), $e->getMessage());
+        return NULL;
+    }
+}
+
+
 }

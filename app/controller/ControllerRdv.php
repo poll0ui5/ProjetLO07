@@ -15,6 +15,15 @@ class ControllerRdv {
         require ($vue);
     }
     
+    public static function rdvEtuBook() {
+    $projet_id = $_GET['projet_id'] ?? null;
+    $creneaux = ModelRdv::getCreneauxDispo($projet_id);
+    include 'config.php';
+    $vue = $root . '/app/view/rdv/viewRdvForm.php';
+    require ($vue);
+}
+
+    
 }
 ?>
 <!-- ----- fin ControllerVin -->

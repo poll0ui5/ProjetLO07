@@ -38,6 +38,9 @@ class ControllerPersonne {
                     $_SESSION['login_role_responsable'] = $user->getRole_responsable();
                     $_SESSION['login_role_examinateur'] = $user->getRole_examinateur();
                     $_SESSION['login_role_etudiant'] = $user->getRole_etudiant();
+                    $_SESSION['login_user']=$user->getLogin();
+                    $_SESSION['password_user']=$user->getPassword();
+                    $_SESSION['connected']='1';
                 } else {
                     // Si erreur, on remet à zéro
                     $_SESSION['login_id'] = 0;
@@ -59,6 +62,10 @@ class ControllerPersonne {
         session_start();
         session_unset();
         session_destroy();
+        session_start();
+        $_SESSION['login_user'] = 0;
+        $_SESSION['utilisateur_user'] = "?";
+        $_SESSION['connected']=0;
         header('Location: router1.php?action=projetAccueil');
         exit();
     }
@@ -101,6 +108,32 @@ class ControllerPersonne {
             exit();
         }
     }
+
+    public static function listExaminateur() {
+        $results = ModelPersonne::getAllExam();
+        include 'config.php';
+        $vue = $root . '/app/view/perso/viewpersoExam.php';
+        require($vue);
+    }
+
+    public static function AddExaminateur() {
+        // ----- Construction chemin de la vue
+        include 'config.php';
+        $vue = $root . '/app/view/perso/viewpersoAddExam.php';
+        require ($vue);
+    }
+
+    public static function ExaminateurAdded() {
+        $prenom = htmlspecialchars($_POST['prenom']);
+        $nom = htmlspecialchars($_POST['nom']);
+        $role_examinateur = 1;
+        $role_etudiant = 0;
+        $role_responsable = 0;
+
+        $results = ModelPersonne::insertExam($prenom, $nom, $role_examinateur, $role_etudiant, $role_responsable);
+        include 'config.php';
+        $vue = $root . '/app/view/perso/viewpersoExamAdded.php';
+        require ($vue);
+    }
 }
 ?>
-

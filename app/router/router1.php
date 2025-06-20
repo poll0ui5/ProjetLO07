@@ -32,31 +32,38 @@ $role_examinateur = $_SESSION['login_role_examinateur'] ?? false;
 $role_etudiant = $_SESSION['login_role_etudiant'] ?? false;
 
 switch ($action) {
-    // Actions accessibles à tout le monde (connecté ou non)
+    // Actions publiques accessibles à tout le monde
     case "persoLogin":
+    case "persoLogout":
+    case "persoLogged":
+    case "projetInnovationsValo":
+    case "projetInnovationsAmelio":
     case "persoRegister":
     case "persoRegistered":
-    case "persoLogged":
         ControllerPersonne::$action($args);
         break;
-    //---------------------------------------------------------
-    //PERSONNE
+    case "projetInnovationsValo":
+    case "projetInnovationsAmelio":
+    case "projetAccueil":
+        ControllerProjet::$action($args);
+        break;
 
-    case "persoLogout":
-        if ($connected) {
+    // Actions examinateur
+    case "listExaminateur":
+    case "AddExaminateur":
+    case "ExaminateurAdded":
+        if ($connected && $role_examinateur) {
             ControllerPersonne::$action($args);
         } else {
             header("Location: router1.php?action=projetAccueil");
             exit();
         }
         break;
-    //---------------------------------------------------------
-    //PROJET
-    case "projetAccueil":
-        ControllerProjet::$action($args);
-        break;
+
+    // Actions responsable
     case "projetRespoList":
     case "projetCreate":
+    case "projetCreated":
         if ($connected && $role_responsable) {
             ControllerProjet::$action($args);
         } else {
@@ -64,8 +71,8 @@ switch ($action) {
             exit();
         }
         break;
-    //---------------------------------------------------------
-    //RDV
+
+    // Actions étudiant
     case "rdvEtuList":
     case "rdvEtuBook":
         if ($connected && $role_etudiant) {
@@ -75,5 +82,10 @@ switch ($action) {
             exit();
         }
         break;
+
+    // Cas par défaut
+    default:
+        header("Location: router1.php?action=projetAccueil");
+        exit();
 }
 ?>
