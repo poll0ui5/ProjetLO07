@@ -1,6 +1,17 @@
 <!-- ----- debut Router1 -->
 <?php
-session_start();
+
+
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+// Si on vient de logout et qu'aucune variable de session n'est encore définie
+if (isset($_GET['logout']) && $_GET['logout'] == 1) {
+    $_SESSION['login_user'] = 0;
+    $_SESSION['utilisateur_user'] = "?";
+    $_SESSION['connected'] = 0;
+}
 echo 'Current dir: ' . __DIR__;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -75,6 +86,7 @@ switch ($action) {
     // Actions étudiant
     case "rdvEtuList":
     case "rdvEtuBook":
+    case "rdvEtuBookWrite":
         if ($connected && $role_etudiant) {
             ControllerRdv::$action($args);
         } else {

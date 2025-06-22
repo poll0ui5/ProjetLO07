@@ -38,9 +38,9 @@ class ControllerPersonne {
                     $_SESSION['login_role_responsable'] = $user->getRole_responsable();
                     $_SESSION['login_role_examinateur'] = $user->getRole_examinateur();
                     $_SESSION['login_role_etudiant'] = $user->getRole_etudiant();
-                    $_SESSION['login_user']=$user->getLogin();
-                    $_SESSION['password_user']=$user->getPassword();
-                    $_SESSION['connected']='1';
+                    $_SESSION['login_user'] = $user->getLogin();
+                    $_SESSION['password_user'] = $user->getPassword();
+                    $_SESSION['connected'] = '1';
                 } else {
                     // Si erreur, on remet à zéro
                     $_SESSION['login_id'] = 0;
@@ -59,14 +59,16 @@ class ControllerPersonne {
     }
 
     public static function persoLogout() {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // On vide et on détruit
         session_unset();
         session_destroy();
-        session_start();
-        $_SESSION['login_user'] = 0;
-        $_SESSION['utilisateur_user'] = "?";
-        $_SESSION['connected']=0;
-        header('Location: router1.php?action=projetAccueil');
+
+        // Redirection : la nouvelle session sera démarrée par ton routeur
+        header('Location: router1.php?action=projetAccueil&logout=1');
         exit();
     }
 

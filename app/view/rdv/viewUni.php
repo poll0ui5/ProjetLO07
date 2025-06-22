@@ -8,7 +8,7 @@
     include ($root . 'app/view/fragment/fragmentJumbotron.html');
     ?>
 
-    <h3 class="mb-4">Résultats</h3>
+    <h3 class="mb-4">Créneaux pris:</h3>
 
     <?php if (!empty($results)) : ?>
       <div class="table-responsive">
