@@ -1,7 +1,6 @@
 
 <?php
 
-require_once '../model/ModelProjet.php';
 require_once '../model/ModelRdv.php';
 
 class ControllerRdv {

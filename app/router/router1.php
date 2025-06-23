@@ -1,8 +1,5 @@
 <!-- ----- debut Router1 -->
 <?php
-
-
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -75,6 +72,10 @@ switch ($action) {
     case "projetRespoList":
     case "projetCreate":
     case "projetCreated":
+    case "projetSelectExam":
+    case "projetAvecExamList":
+    case "projetSelectPlanning":
+    case "projetPlanning":
         if ($connected && $role_responsable) {
             ControllerProjet::$action($args);
         } else {
@@ -82,6 +83,15 @@ switch ($action) {
             exit();
         }
         break;
+    case "projetExamList":
+        if ($connected && $role_examinateur) {
+            ControllerProjet::$action($args);
+        } else {
+            header("Location: router1.php?action=projetAccueil");
+            exit();
+        }
+        break;
+        
 
     // Actions étudiant
     case "rdvEtuList":
@@ -89,6 +99,21 @@ switch ($action) {
     case "rdvEtuBookWrite":
         if ($connected && $role_etudiant) {
             ControllerRdv::$action($args);
+        } else {
+            header("Location: router1.php?action=projetAccueil");
+            exit();
+        }
+        break;
+
+    case "creneauxExamList":
+    case "creneauSelectProjet":
+    case "creneauListByProjet":
+    case "creneauAdd":
+    case "creneauAddSubmit":
+    case "creneauAddConsec":
+    case "creneauAddConsecSubmit":
+        if ($connected && $role_examinateur) {
+            ControllerCreneau::$action($args);
         } else {
             header("Location: router1.php?action=projetAccueil");
             exit();

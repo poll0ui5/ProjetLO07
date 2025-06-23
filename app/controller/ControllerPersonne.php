@@ -7,6 +7,10 @@ class ControllerPersonne {
 
     public static function persoLogin() {
         include 'config.php';
+        if (isset($_GET['error'])){
+           $error=$_GET['error']; 
+        }
+        
         $vue = $root . '/app/view/perso/viewpersoLogin.php'; // le formulaire
         // traitement du POST uniquement si les champs existent
         if (isset($_POST['login_user']) && isset($_POST['password_user'])) {
@@ -46,16 +50,14 @@ class ControllerPersonne {
                     $_SESSION['login_id'] = 0;
                     $_SESSION['login_nom'] = '';
                     $_SESSION['login_prenom'] = '';
+                    header("Location: router1.php?action=persoLogin&error=1");
+                    exit();
                 }
             }
             include 'config.php';
             $vue = $root . '/app/view/perso/viewpersoLogged.php'; // Vue de confirmation de login
             require($vue);
-        } else {
-            // login_user est vide => on redirige
-            header("Location: router1.php?action=projetAccueil");
-            exit();
-        }
+        } 
     }
 
     public static function persoLogout() {

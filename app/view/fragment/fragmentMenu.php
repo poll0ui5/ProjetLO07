@@ -37,9 +37,9 @@ $role_etudiant = $_SESSION['login_role_etudiant'] ?? false;
                             <hr>
                             <li><a class="dropdown-item" href="router1.php?action=listExaminateur">Liste des examinateurs</a></li>
                             <li><a class="dropdown-item" href="router1.php?action=AddExaminateur">Ajout d'un examinateur</a></li>
-                            <li><a class="dropdown-item" href="router1.php?action=ResponsableCreneaux">Liste des examinateurs d'un projet</a></li>
+                            <li><a class="dropdown-item" href="router1.php?action=projetSelectExam">Liste des examinateurs d'un projet</a></li>
                             <hr>
-                            <li><a class="dropdown-item" href="router1.php?action=ResponsableCreneaux">Planning d'un projet</a></li>
+                            <li><a class="dropdown-item" href="router1.php?action=projetSelectPlanning">Planning d'un projet</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -49,8 +49,11 @@ $role_etudiant = $_SESSION['login_role_etudiant'] ?? false;
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Examinateur</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="router1.php?action=ExaminateurMesCreneaux">Mes créneaux</a></li>
-                            <li><a class="dropdown-item" href="router1.php?action=ExaminateurNotes">Notes</a></li>
+                            <li><a class="dropdown-item" href="router1.php?action=projetExamList">Liste de mes projets</a></li>
+                            <li><a class="dropdown-item" href="router1.php?action=creneauxExamList">Liste complète de mes créneaux</a></li>
+                            <li><a class="dropdown-item" href="router1.php?action=creneauSelectProjet">Liste de mes créneaux pour un projet</a></li>
+                            <li><a class="dropdown-item" href="router1.php?action=creneauAdd">Ajouter un créneau à un projet </a></li>
+                            <li><a class="dropdown-item" href="router1.php?action=creneauAddConsec">Ajouter des créneaux consécutifs </a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
